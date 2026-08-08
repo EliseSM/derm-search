@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dermatology PubMed RAG</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Dermatology PubMed RAG</h1>
+      <p class="subtitle">Ask a dermatology question. Every answer is grounded in
+        PubMed abstracts, with the source cited for each claim.</p>
+    </header>
+
+    <form id="ask-form">
+      <input id="question" type="text" autocomplete="off"
+             placeholder="e.g. What are treatment options for plaque psoriasis?" />
+      <button id="ask-btn" type="submit">Ask</button>
+    </form>
+
+    <section class="panel">
+      <h2>Pipeline</h2>
+      <ol id="steps" class="steps">
+        <li data-step="embedding"><span class="dot"></span>Embedding the query</li>
+        <li data-step="searching"><span class="dot"></span>Searching the vector store</li>
+        <li data-step="retrieved"><span class="dot"></span>Retrieving relevant abstracts</li>
+        <li data-step="generating"><span class="dot"></span>Generating a cited answer</li>
+        <li data-step="done"><span class="dot"></span>Done</li>
+      </ol>
+    </section>
+
+    <section class="panel">
+      <h2>Retrieved abstracts</h2>
+      <ul id="retrieved" class="cards"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>Answer</h2>
+      <div id="answer" class="answer"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Citations</h2>
+      <ol id="citations" class="cards"></ol>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

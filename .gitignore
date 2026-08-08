@@ -1,0 +1,12 @@
+# Generated data (abstracts + vector store)
+data/
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
