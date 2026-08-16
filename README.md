@@ -59,6 +59,20 @@ uvicorn app.main:app --reload
 Open <http://localhost:8000> and ask a dermatology question, e.g.
 *"What are treatment options for plaque psoriasis?"*
 
+## Growing the corpus
+
+To add more abstracts on a specific skin topic without rebuilding the index:
+
+```bash
+python ingest/add_articles.py --count 25 --topic "plaque psoriasis"
+python ingest/add_articles.py --count 10 --topic eczema --dry-run   # preview only
+```
+
+New PMIDs are appended to `data/abstracts.json`, embedded with the same model,
+and added to the existing Chroma collection; already-indexed PMIDs are skipped.
+Restart the server afterwards — `app/rag.py` caches the collection handle.
+The `/add-articles` skill in `.claude/skills/` wraps this for Claude Code.
+
 ## Notes
 
 - **Embedding model:** defaults to `sentence-transformers/all-MiniLM-L6-v2`
@@ -74,7 +88,8 @@ Open <http://localhost:8000> and ask a dermatology question, e.g.
 
 ```
 ingest/fetch_pubmed.py   PubMed E-utilities → data/abstracts.json
-ingest/build_index.py    embed abstracts → data/chroma/
+ingest/build_index.py    embed abstracts → data/chroma/ (full rebuild)
+ingest/add_articles.py   add N more abstracts on one skin topic (incremental)
 app/config.py            paths, model names, top_k
 app/rag.py               retrieval + Claude streaming with citations
 app/main.py              FastAPI app + SSE endpoint
